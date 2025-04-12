@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Cursor</title>
+</head>
+<body>
+    <center>
+        <h2>Move Mouse Cursor</h2>
+        <table>
+            <tr>
+                <td>X:</td> 
+                <td><input type="number" id="xVal"></td>
+            </tr>
+            <tr>
+                <td>Y:</td> 
+                <td><input type="number" id="yVal"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button onclick="submitData()">Submit</button></td>
+            </tr>
+        </table>
+        <p id="response"></p>
+    </center>
+
+    <script>
+        function submitData() {
+            const x = document.getElementById('xVal').value;
+            const y = document.getElementById('yVal').value;
+
+            fetch('/move/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ x: parseInt(x), y: parseInt(y) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = JSON.stringify(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
